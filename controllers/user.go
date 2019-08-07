@@ -59,7 +59,7 @@ func UserSignUp(c *gin.Context) {
 		Name      string     `json:"name" binding:"required"`
 		Password  string     `json:"password" binding:"required"`
 		Birthdate *time.Time `json:"birthdate" binding:"required"`
-		Gender    string       `json:"gender" binding:"required"`
+		Gender    string     `json:"gender" binding:"required"`
 		Weight    float32    `json:"weight" binding:"required"`
 		Height    float32    `json:"height" binding:"required"`
 	}
@@ -112,7 +112,7 @@ func UserSignUp(c *gin.Context) {
 func UserLogin(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	type RequestBody struct {
-		Username string `json:"username" binding:"required"`
+		Email    string `json:"email" binding:"required"`
 		Password string `json:"password" binding:"required"`
 	}
 
@@ -124,7 +124,8 @@ func UserLogin(c *gin.Context) {
 
 	// check existancy
 	var user User
-	if err := db.Where("username = ?", body.Username).First(&user).Error; err != nil {
+	if err := db.Where("email = ?", body.Email).First(&user).Error; err != nil {
+		fmt.Println(err)
 		c.AbortWithStatus(404) // user not found
 		return
 	}
