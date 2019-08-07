@@ -1,0 +1,8 @@
+vendor/*
+!vendor/vendor.json
+
+jwtsecret.key
+.env
+
+tmp/*
+*.exe
