@@ -7,16 +7,16 @@ import (
 //Bicycle model
 type Bicycle struct {
 	ID       uint   `gorm:"column:id;primary_key"`
-	Name	string 	`gorm:"column:name"`
-	BikeType string `gorm:"column:biketype"`
-	UserID   uint   `gorm:"column:userid"`
+	Name     string `gorm:"column:name";not null`
+	BikeType string `gorm:"column:biketype";not null`
+	UserID   uint   `gorm:"column:userid";not null`
 }
 
 // Serialize serializes bicycle data
 func (b *Bicycle) Serialize() common.JSON {
 	return common.JSON{
 		"id":       b.ID,
-		"name":	b.Name,
+		"name":     b.Name,
 		"biketype": b.BikeType,
 		"userid":   b.UserID,
 	}

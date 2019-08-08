@@ -20,4 +20,9 @@ func ApplyRoutes(r *gin.Engine) {
 		api.POST("/signup", cont.BicycleSignUp)
 		api.GET("/retrieve", cont.BicycleRetrieve)
 	}
+	api = r.Group("api/target")
+	{
+		api.POST("/signup", cont.TargetSignUp)
+		api.GET("/lastestretrieve", cont.LastestTargetRetrieve)
+	}
 }
