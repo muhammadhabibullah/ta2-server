@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"tugas-akhir-2/common"
+	"tugas-akhir-2/middlewares"
 	"tugas-akhir-2/models"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -148,13 +149,7 @@ func UserLogin(c *gin.Context) {
 
 //UserRetrieve controller
 func UserRetrieve(c *gin.Context) {
-	userRaw, ok := c.Get("user")
-	if !ok {
-		c.AbortWithStatus(401)
-		return
-	}
-
-	user := userRaw.(User)
+	user := middlewares.AuthorizedUser(c)
 
 	c.JSON(200, common.JSON{
 		"user": user.Serialize(),
@@ -163,13 +158,7 @@ func UserRetrieve(c *gin.Context) {
 
 // UserRenewToken check API will renew token when token life is less than 3 days, otherwise, return null for token
 func UserRenewToken(c *gin.Context) {
-	userRaw, ok := c.Get("user")
-	if !ok {
-		c.AbortWithStatus(401)
-		return
-	}
-
-	user := userRaw.(User)
+	user := middlewares.AuthorizedUser(c)
 
 	tokenExpire := int64(c.MustGet("token_expire").(float64))
 	now := time.Now().Unix()
