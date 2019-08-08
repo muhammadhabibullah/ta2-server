@@ -15,4 +15,9 @@ func ApplyRoutes(r *gin.Engine) {
 		api.GET("/renewtoken", cont.UserRenewToken)
 		api.GET("/retrieve", cont.UserRetrieve)
 	}
+	api = r.Group("api/bicycle")
+	{
+		api.POST("/signup", cont.BicycleSignUp)
+		api.GET("/retrieve", cont.BicycleRetrieve)
+	}
 }
