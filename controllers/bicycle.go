@@ -11,7 +11,7 @@ import (
 )
 
 // Bicycle is alias for models.Bicycle
-type Bicycle models.Bicycle
+type Bicycle = models.Bicycle
 
 //BicycleSignUp to input your bicycle
 func BicycleSignUp(c *gin.Context) {
@@ -50,7 +50,7 @@ func BicycleSignUp(c *gin.Context) {
 	db.Create(&bicycle)
 
 	c.JSON(200, common.JSON{
-		"bicycle": bicycle,
+		"bicycle": bicycle.Serialize(),
 	})
 }
 
@@ -61,7 +61,15 @@ func BicycleRetrieve(c *gin.Context) {
 	var bicycles []Bicycle
 
 	db := c.MustGet("db").(*gorm.DB)
-	db.Raw("SELECT * FROM bicycles WHERE userid = ?", user.ID).Scan(&bicycles)
+	//db.Raw("SELECT * FROM bicycles WHERE userid = ?", user.ID).Scan(&bicycles)
+	db.Where("userid = ?", user.ID).Find(&bicycles)
 
-	c.JSON(200, bicycles)
+	length := len(bicycles)
+	serialized := make([]common.JSON, length, length)
+
+	for i := 0; i < length; i++ {
+		serialized[i] = bicycles[i].Serialize()
+	}
+
+	c.JSON(200, serialized)
 }

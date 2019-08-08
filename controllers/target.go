@@ -11,8 +11,9 @@ import (
 )
 
 // Target is alias for models.Target
-type Target models.Target
+type Target = models.Target
 
+//TargetSignUp to input your target
 func TargetSignUp(c *gin.Context) {
 	user := middlewares.AuthorizedUser(c)
 
@@ -41,18 +42,20 @@ func TargetSignUp(c *gin.Context) {
 	db.Create(&target)
 
 	c.JSON(200, common.JSON{
-		"target": target,
+		"target": target.Serialize(),
 	})
 
 }
 
+//LastestTargetRetrieve return lastest target by user
 func LastestTargetRetrieve(c *gin.Context) {
 	user := middlewares.AuthorizedUser(c)
 
 	var target Target
 
 	db := c.MustGet("db").(*gorm.DB)
-	db.Raw("SELECT * FROM targets WHERE userid = ? ORDER BY id DESC LIMIT 1", user.ID).Scan(&target)
+	//db.Raw("SELECT * FROM targets WHERE userid = ? ORDER BY id DESC LIMIT 1", user.ID).Scan(&target)
+	db.Limit(1).Where("userid = ?", user.ID).Order("id desc").Find(&target)
 
-	c.JSON(200, target)
+	c.JSON(200, target.Serialize())
 }
