@@ -55,13 +55,13 @@ func UserSignUp(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
 	type RequestBody struct {
-		Email     string     `json:"email" binding:"required"`
-		Name      string     `json:"name" binding:"required"`
-		Password  string     `json:"password" binding:"required"`
-		Birthdate *time.Time `json:"birthdate" binding:"required"`
-		Gender    string     `json:"gender" binding:"required"`
-		Weight    float32    `json:"weight" binding:"required"`
-		Height    float32    `json:"height" binding:"required"`
+		Email     string  `json:"email" binding:"required"`
+		Name      string  `json:"name" binding:"required"`
+		Password  string  `json:"password" binding:"required"`
+		Birthdate string  `json:"birthdate" binding:"required"`
+		Gender    string  `json:"gender" binding:"required"`
+		Weight    float64 `json:"weight" binding:"required"`
+		Height    float64 `json:"height" binding:"required"`
 	}
 
 	var body RequestBody
@@ -148,11 +148,11 @@ func UserLogin(c *gin.Context) {
 
 //UserRetrieve controller
 func UserRetrieve(c *gin.Context) {
-	//??
+
 }
 
-// check API will renew token when token life is less than 3 days, otherwise, return null for token
-func Check(c *gin.Context) {
+// UserRenewToken check API will renew token when token life is less than 3 days, otherwise, return null for token
+func UserRenewToken(c *gin.Context) {
 	userRaw, ok := c.Get("user")
 	if !ok {
 		c.AbortWithStatus(401)

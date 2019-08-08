@@ -10,9 +10,9 @@ import (
 func ApplyRoutes(r *gin.Engine) {
 	api := r.Group("/api/user")
 	{
-		api.POST("signup", cont.UserSignUp)
-		api.POST("login", cont.UserLogin)
-		api.GET("check", cont.Check)
-		api.GET("retrieve", cont.UserRetrieve)
+		api.POST("/signup", cont.UserSignUp)
+		api.POST("/login", cont.UserLogin)
+		api.GET("/renewtoken", cont.UserRenewToken)
+		api.GET("/retrieve", cont.UserRetrieve)
 	}
 }
