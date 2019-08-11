@@ -113,7 +113,7 @@
 	],
 	"rootPath": "tugas-akhir-2",
 	"heroku": {
-        "install" : [ "./..." ],
+        "install" : [ "." ],
         "goVersion": "go1.12.4"
          }
 }
