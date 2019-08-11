@@ -111,5 +111,9 @@
 			"revisionTime": "2018-11-15T11:05:04Z"
 		}
 	],
-	"rootPath": "tugas-akhir-2"
+	"rootPath": "tugas-akhir-2",
+	"heroku": {
+        "install" : [ "./..." ],
+        "goVersion": "go1.12.4"
+         }
 }

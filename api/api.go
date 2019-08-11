@@ -27,6 +27,6 @@ func ApplyRoutes(r *gin.Engine) {
 	}
 	api = r.Group("api/cycling")
 	{
-		api.GET("/retrieve/:view/:page", cont.CyclingRetrieve)
+		api.GET("/retrieve/:view/:page", cont.CyclingRetrieve) //List View
 	}
 }

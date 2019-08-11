@@ -13,7 +13,7 @@ import (
 // Cycling is alias for models.Cycling
 type Cycling = models.Cycling
 
-//CyclingRetrieve get 10 lastest cycling of user
+//CyclingRetrieve get 10 lastest cycling of user (for list view UX)
 func CyclingRetrieve(c *gin.Context) {
 	user := middlewares.AuthorizedUser(c)
 
