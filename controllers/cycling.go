@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"bytes"
 	"strconv"
 	"tugas-akhir-2/common"
 	"tugas-akhir-2/middlewares"
@@ -13,7 +14,60 @@ import (
 // Cycling is alias for models.Cycling
 type Cycling = models.Cycling
 
-//CyclingRetrieve get 10 lastest cycling of user (for list view UX)
+//CyclingCalendar get cycling data at requested month-year range
+func CyclingCalendar(c *gin.Context) {
+	user := middlewares.AuthorizedUser(c)
+
+	var cyclings []Cycling
+	var b bytes.Buffer
+
+	db := c.MustGet("db").(*gorm.DB)
+	month := c.Param("m")
+	year := c.Param("y")
+	m, _ := strconv.Atoi(month)
+	y, _ := strconv.Atoi(year)
+
+	b.WriteString(year)
+	b.WriteString("-")
+	b.WriteString(month)
+	b.WriteString("-")
+	b.WriteString("01")
+	datestart := b.String()
+	b.Reset()
+
+	b.WriteString(year)
+	b.WriteString("-")
+	b.WriteString(month)
+	b.WriteString("-")
+	switch m {
+	case 1, 3, 5, 7, 8, 10, 12:
+		b.WriteString("31")
+	case 4, 6, 9, 11:
+		b.WriteString("30")
+	case 2:
+		kabisat := (y%4 == 0)
+		if kabisat {
+			b.WriteString("29")
+		} else {
+			b.WriteString("28")
+		}
+	}
+	datefinish := b.String()
+
+	db.Where("userid = ? and starttime >= ? and starttime <= ?", user.ID, datestart, datefinish).Order("starttime desc").Find(&cyclings)
+
+	length := len(cyclings)
+	serialized := make([]common.JSON, length, length)
+
+	for i := 0; i < length; i++ {
+		serialized[i] = cyclings[i].Serialize()
+	}
+
+	c.JSON(200, serialized)
+
+}
+
+//CyclingRetrieve get requested-number lastest cycling of user (for list view UX)
 func CyclingRetrieve(c *gin.Context) {
 	user := middlewares.AuthorizedUser(c)
 

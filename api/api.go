@@ -25,12 +25,14 @@ func ApplyRoutes(r *gin.Engine) {
 	api = r.Group("api/target")
 	{
 		api.POST("/signup", cont.TargetSignUp)
+		api.GET("/retrieve", cont.TargetRetrieve)
 		api.GET("/lastestretrieve", cont.LastestTargetRetrieve)
 		api.PATCH("/edit/:id", cont.TargetEdit)
 		api.DELETE("/delete/:id", cont.TargetDelete)
 	}
 	api = r.Group("api/cycling")
 	{
+		api.GET("/calendar/:m/:y", cont.CyclingCalendar) 	   //Calendar View
 		api.GET("/retrieve/:view/:page", cont.CyclingRetrieve) //List View
 		api.GET("/graph/:y/:x/", cont.CyclingGraph)            //Graph
 		api.GET("/detail/:cyclingid", cont.CyclingDetail)      //Detail in a Cycling

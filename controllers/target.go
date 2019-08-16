@@ -47,6 +47,25 @@ func TargetSignUp(c *gin.Context) {
 
 }
 
+//TargetRetrieve return all target created by user
+func TargetRetrieve(c *gin.Context) {
+	user := middlewares.AuthorizedUser(c)
+
+	var targets []Target
+
+	db := c.MustGet("db").(*gorm.DB)
+	db.Where("userid = ?", user.ID).Find(&targets)
+
+	length := len(targets)
+	serialized := make([]common.JSON, length, length)
+
+	for i := 0; i < length; i++ {
+		serialized[i] = targets[i].Serialize()
+	}
+
+	c.JSON(200, serialized)
+}
+
 //LastestTargetRetrieve return lastest target by user
 func LastestTargetRetrieve(c *gin.Context) {
 	user := middlewares.AuthorizedUser(c)
