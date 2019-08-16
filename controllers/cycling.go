@@ -90,7 +90,7 @@ func CyclingGraph(c *gin.Context) {
 
 //CyclingDetail give detail of a cycling data
 func CyclingDetail(c *gin.Context) {
-	user := middlewares.AuthorizedUser(c)
+	_ = middlewares.AuthorizedUser(c)
 
 	var cycling Cycling
 

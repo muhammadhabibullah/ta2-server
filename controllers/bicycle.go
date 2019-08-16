@@ -73,3 +73,64 @@ func BicycleRetrieve(c *gin.Context) {
 
 	c.JSON(200, serialized)
 }
+
+//BicycleEdit edit bicycle detail
+func BicycleEdit(c *gin.Context) {
+	user := middlewares.AuthorizedUser(c)
+
+	db := c.MustGet("db").(*gorm.DB)
+	id := c.Param("id")
+
+	type RequestBody struct {
+		Name     string `json:"name"`
+		BikeType string `json:"biketype" binding:"required"`
+	}
+
+	var body RequestBody
+
+	if err := c.BindJSON(&body); err != nil {
+		fmt.Println(err)
+		c.AbortWithStatus(400)
+		return
+	}
+
+	var bicycle Bicycle
+
+	if err := db.Where("id = ?", id).First(&bicycle).Error; err != nil {
+		c.AbortWithStatus(404)
+		return
+	}
+
+	if bicycle.UserID != user.ID {
+		c.AbortWithStatus(403)
+		return
+	}
+
+	bicycle.Name = body.Name
+	bicycle.BikeType = body.BikeType
+	db.Save(&bicycle)
+	c.JSON(200, bicycle.Serialize())
+}
+
+//BicycleDelete delete bicycle data
+func BicycleDelete(c *gin.Context) {
+	user := middlewares.AuthorizedUser(c)
+
+	db := c.MustGet("db").(*gorm.DB)
+	id := c.Param("id")
+
+	var bicycle Bicycle
+
+	if err := db.Where("id = ?", id).First(&bicycle).Error; err != nil {
+		c.AbortWithStatus(404)
+		return
+	}
+
+	if bicycle.UserID != user.ID {
+		c.AbortWithStatus(403)
+		return
+	}
+
+	db.Delete(&bicycle)
+	c.Status(204)
+}

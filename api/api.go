@@ -19,11 +19,15 @@ func ApplyRoutes(r *gin.Engine) {
 	{
 		api.POST("/signup", cont.BicycleSignUp)
 		api.GET("/retrieve", cont.BicycleRetrieve)
+		api.PATCH("/edit/:id", cont.BicycleEdit)
+		api.DELETE("/delete/:id", cont.BicycleDelete)
 	}
 	api = r.Group("api/target")
 	{
 		api.POST("/signup", cont.TargetSignUp)
 		api.GET("/lastestretrieve", cont.LastestTargetRetrieve)
+		api.PATCH("/edit/:id", cont.TargetEdit)
+		api.DELETE("/delete/:id", cont.TargetDelete)
 	}
 	api = r.Group("api/cycling")
 	{
