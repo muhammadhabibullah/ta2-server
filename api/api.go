@@ -26,7 +26,7 @@ func ApplyRoutes(r *gin.Engine) {
 	{
 		api.POST("/signup", cont.TargetSignUp)
 		api.GET("/retrieve", cont.TargetRetrieve)
-		api.GET("/lastestretrieve", cont.LastestTargetRetrieve)
+		//api.GET("/lastestretrieve", cont.LastestTargetRetrieve)
 		api.PATCH("/edit/:id", cont.TargetEdit)
 		api.DELETE("/delete/:id", cont.TargetDelete)
 	}

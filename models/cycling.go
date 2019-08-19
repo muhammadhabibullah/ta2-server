@@ -15,6 +15,7 @@ type Cycling struct {
 	HeartRate     uint    `gorm:"column:heartrate; not null"`
 	CalorieBurned float64 `gorm:"column:calorieburned;type:float; not null"`
 	PercentOfGoal float64 `gorm:"column:percentofgoal;type:float; not null"`
+	Recommendation string `gorm:"column:recommendation;type:text; not null"`
 	UserID        uint    `gorm:"column:userid;not null"`
 	BicycleID     uint    `gorm:"column:bicycleid;not null"`
 	GPSID         uint    `gorm:"column:gpsid;not null"`
@@ -32,6 +33,7 @@ func (c *Cycling) Serialize() common.JSON {
 		"heartrate":     c.HeartRate,
 		"calorieburned": c.CalorieBurned,
 		"percentofgoal": c.PercentOfGoal,
+		"recommendation":	c.Recommendation,
 		"userid":        c.UserID,
 		"bicycleid":     c.BicycleID,
 		"gpsid":         c.GPSID,
@@ -48,6 +50,7 @@ func (c *Cycling) Read(m common.JSON) {
 	c.HeartRate = uint(m["heartrate"].(float64))
 	c.CalorieBurned = m["calorieburned"].(float64)
 	c.PercentOfGoal = m["percentofgoal"].(float64)
+	c.Recommendation = m["recommendation"].(string)
 	c.UserID = uint(m["userid"].(float64))
 	c.BicycleID = uint(m["bicycleid"].(float64))
 	c.GPSID = uint(m["gpsid"].(float64))
