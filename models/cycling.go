@@ -15,9 +15,9 @@ type Cycling struct {
 	HeartRate     uint    `gorm:"column:heartrate; not null"`
 	CalorieBurned float64 `gorm:"column:calorieburned;type:float; not null"`
 	PercentOfGoal float64 `gorm:"column:percentofgoal;type:float; not null"`
-	UserID        uint    `gorm:"column:userid";not null`
-	BicycleID     uint    `gorm:"column:bicycleid";not null`
-	GPSID         uint    `gorm:"column:gpsid";not null`
+	UserID        uint    `gorm:"column:userid;not null"`
+	BicycleID     uint    `gorm:"column:bicycleid;not null"`
+	GPSID         uint    `gorm:"column:gpsid;not null"`
 }
 
 // Serialize serializes bicycle data

@@ -6,3 +6,5 @@ jwtsecret.key
 
 tmp/*
 *.exe
+deploy.sh
+tugas-akhir-2

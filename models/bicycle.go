@@ -7,9 +7,9 @@ import (
 //Bicycle model
 type Bicycle struct {
 	ID       uint   `gorm:"column:id;primary_key"`
-	Name     string `gorm:"column:name";not null`
-	BikeType string `gorm:"column:biketype";not null`
-	UserID   uint   `gorm:"column:userid";not null`
+	Name     string `gorm:"column:name;not null"`
+	BikeType string `gorm:"column:biketype;not null"`
+	UserID   uint   `gorm:"column:userid;not null"`
 }
 
 // Serialize serializes bicycle data
