@@ -3,7 +3,8 @@ package middlewares
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
+
+	//"io/ioutil"
 	"os"
 	"strings"
 
@@ -18,14 +19,14 @@ var secretKey []byte
 
 func init() {
 	// get path from root dir
-	pwd, _ := os.Getwd()
+	/*pwd, _ := os.Getwd()
 	keyPath := pwd + "/jwtsecret.key"
 
 	key, readErr := ioutil.ReadFile(keyPath)
 	if readErr != nil {
 		panic("failed to load secret key file")
-	}
-	secretKey = key
+	}*/
+	secretKey = []byte(os.Getenv("RANDOM_STRING"))
 }
 
 func validateToken(tokenString string) (common.JSON, error) {

@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"fmt"
-	"io/ioutil"
+	//"io/ioutil"
 	"os"
 	"time"
 
@@ -40,14 +40,14 @@ func generateToken(data common.JSON) (string, error) {
 	})
 
 	// get path from root dir
-	pwd, _ := os.Getwd()
+	/*pwd, _ := os.Getwd()
 	keyPath := pwd + "/jwtsecret.key"
 
 	key, readErr := ioutil.ReadFile(keyPath)
 	if readErr != nil {
 		return "", readErr
-	}
-	tokenString, err := token.SignedString(key)
+	}*/
+	tokenString, err := token.SignedString([]byte(os.Getenv("RANDOM_STRING")))
 	return tokenString, err
 }
 
