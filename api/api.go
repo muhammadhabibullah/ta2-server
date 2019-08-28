@@ -32,9 +32,16 @@ func ApplyRoutes(r *gin.Engine) {
 	}
 	api = r.Group("api/cycling")
 	{
-		api.GET("/calendar/:m/:y", cont.CyclingCalendar) 	   //Calendar View
-		api.GET("/retrieve/:view/:page", cont.CyclingRetrieve) //List View
-		api.GET("/graph/:y/:x/", cont.CyclingGraph)            //Graph
-		api.GET("/detail/:cyclingid", cont.CyclingDetail)      //Detail in a Cycling
+		api.GET("/calendarMonth/:m/:y", cont.CyclingCalendarMonth)  //Calendar Month View
+		api.GET("/calendarDate/:d/:m/:y", cont.CyclingCalendarDate) //Calendar Date View
+		api.GET("/list/:view/:page", cont.CyclingList)      //List View
+		api.GET("/graph/:y/:x/", cont.CyclingGraph)                 //Graph
+		api.GET("/detail/:cyclingid", cont.CyclingDetail)           //Detail in a Cycling
+		api.GET("/progress/:cyclingid", cont.CyclingProgress)       //Cycling Progress
 	}
+	// api = r.Group("/api/nodemcu")
+	// {
+	// 	api.GET("/retrieveAge/:bid", cont.GetCyclerAge)
+	// 	api.GET("/retrieveLastestTarget/:bid", cont.GetCyclerLastestTarget)
+	// }
 }

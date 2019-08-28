@@ -1,6 +1,7 @@
 package models
 
 import (
+	"bytes"
 	"fmt"
 	"time"
 	"tugas-akhir-2/common"
@@ -45,7 +46,15 @@ func (u *User) Read(m common.JSON) {
 
 //CountAge return age of the user
 func (u *User) CountAge() int {
-	t, err := time.Parse("2006-01-02T15:04:05.000Z", u.Birthdate)
+
+	var b bytes.Buffer
+
+	bd := u.Birthdate[:len(u.Birthdate)-6] //cut +07:00 char
+	b.WriteString(bd)
+	b.WriteString(".000Z") // add .000Z char
+	bd = b.String()
+
+	t, err := time.Parse("2006-01-02T15:04:05.000Z", bd)
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -6,10 +6,11 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+//Target model
 type Target struct {
 	gorm.Model
 	Name         string  `gorm:"column:name;not null"`
-	TargetType   string  `gorm:"column:targettype;type:enum('T','D','K','');not null"`
+	TargetType   string  `gorm:"column:targettype;type:enum('T','D','K','P','E','');not null"`
 	TargetNumber float64 `gorm:"column:targetnumber;type:float;not null"`
 	UserID       uint    `gorm:"column:userid;not null"`
 }
