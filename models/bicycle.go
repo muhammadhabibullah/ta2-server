@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"tugas-akhir-2/common"
 )
 
@@ -15,10 +16,10 @@ type Bicycle struct {
 // Serialize serializes bicycle data
 func (b *Bicycle) Serialize() common.JSON {
 	return common.JSON{
-		"id":       b.ID,
+		"id":       fmt.Sprint(b.ID),
 		"name":     b.Name,
 		"biketype": b.BikeType,
-		"userid":   b.UserID,
+		"userid":   fmt.Sprint(b.UserID),
 	}
 }
 

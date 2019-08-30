@@ -24,13 +24,13 @@ type User struct {
 // Serialize serializes user data
 func (u *User) Serialize() common.JSON {
 	return common.JSON{
-		"id":        u.ID,
+		"id":        fmt.Sprint(u.ID),
 		"email":     u.Email,
 		"name":      u.Name,
 		"birthdate": u.Birthdate,
 		"gender":    u.Gender,
-		"weight":    u.Weight,
-		"height":    u.Height,
+		"weight":    fmt.Sprint(u.Weight),
+		"height":    fmt.Sprint(u.Height),
 	}
 }
 

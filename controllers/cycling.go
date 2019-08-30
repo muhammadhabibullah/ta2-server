@@ -263,58 +263,58 @@ func CyclingProgress(c *gin.Context) {
 	db.Limit(1).Where("userid = ? and starttime < ?", user.ID, sT).Order("starttime desc").Find(&lastcycling)
 
 	//Compare
-	p := 0   //pace
-	e := 0   //elevation
-	d := 0   //distance
-	k := 0   //kalori
-	h := 0   //heartrate
-	per := 0 //percent
+	p := "0"   //pace
+	e := "0"   //elevation
+	d := "0"   //distance
+	k := "0"   //kalori
+	h := "0"   //heartrate
+	per := "0" //percent
 
 	//check if lastcycling exists //not required bcs lastcycling is null and if its compared it'll be true
 	if cycling.AveragePace > lastcycling.AveragePace {
-		p = 1
+		p = "1"
 	} else if cycling.AveragePace < lastcycling.AveragePace {
-		p = -1
+		p = "-1"
 	}
 
 	if cycling.ElevationGain > lastcycling.ElevationGain {
-		e = 1
+		e = "1"
 	} else if cycling.ElevationGain < lastcycling.ElevationGain {
-		e = -1
+		e = "-1"
 	}
 
 	if cycling.Distance > lastcycling.Distance {
-		d = 1
+		d = "1"
 	} else if cycling.Distance < lastcycling.Distance {
-		d = -1
+		d = "-1"
 	}
 
 	if cycling.CalorieBurned > lastcycling.CalorieBurned {
-		k = 1
+		k = "1"
 	} else if cycling.CalorieBurned < lastcycling.CalorieBurned {
-		k = -1
+		k = "-1"
 	}
 
 	//Heart Rate
 	if cycling.HeartRate > lastcycling.HeartRate {
 		if float32(cycling.HeartRate) > (float32((220 - user.CountAge())) * 0.85) {
-			h = 2
+			h = "2"
 		} else {
-			h = 1
+			h = "1"
 		}
 	} else if cycling.HeartRate < lastcycling.HeartRate {
 		if float32(cycling.HeartRate) > (float32((220 - user.CountAge())) * 0.85) {
-			h = -2
+			h = "-2"
 		} else {
-			h = -1
+			h = "-1"
 		}
 	}
 
 	//Percent
 	if cycling.PercentOfGoal > lastcycling.PercentOfGoal {
-		per = 1
+		per = "1"
 	} else if cycling.PercentOfGoal < lastcycling.PercentOfGoal {
-		per = -1
+		per = "-1"
 	}
 
 	c.JSON(200, common.JSON{

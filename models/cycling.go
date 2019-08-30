@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"tugas-akhir-2/common"
 )
 
@@ -24,19 +25,19 @@ type Cycling struct {
 // Serialize serializes bicycle data
 func (c *Cycling) Serialize() common.JSON {
 	return common.JSON{
-		"id":             c.ID,
+		"id":             fmt.Sprint(c.ID),
 		"starttime":      c.StartTime,
 		"finishtime":     c.FinishTime,
-		"averagepace":    c.AveragePace,
-		"elevationgain":  c.ElevationGain,
-		"distance":       c.Distance,
-		"heartrate":      c.HeartRate,
-		"calorieburned":  c.CalorieBurned,
-		"percentofgoal":  c.PercentOfGoal,
+		"averagepace":    fmt.Sprint(c.AveragePace),
+		"elevationgain":  fmt.Sprint(c.ElevationGain),
+		"distance":       fmt.Sprint(c.Distance),
+		"heartrate":      fmt.Sprint(c.HeartRate),
+		"calorieburned":  fmt.Sprint(c.CalorieBurned),
+		"percentofgoal":  fmt.Sprint(c.PercentOfGoal),
 		"recommendation": c.Recommendation,
-		"userid":         c.UserID,
-		"bicycleid":      c.BicycleID,
-		"gpsid":          c.GPSID,
+		"userid":         fmt.Sprint(c.UserID),
+		"bicycleid":      fmt.Sprint(c.BicycleID),
+		"gpsid":          fmt.Sprint(c.GPSID),
 	}
 }
 
@@ -60,7 +61,7 @@ func (c *Cycling) Read(m common.JSON) {
 func (c *Cycling) CustomListSerialize() common.JSON {
 	return common.JSON{
 		"starttime":  c.StartTime,
-		"id":         c.ID,
+		"id":         fmt.Sprint(c.ID),
 		"finishtime": c.FinishTime,
 	}
 
@@ -77,9 +78,9 @@ func (c *Cycling) CustomCalendarSerialize(on string) common.JSON {
 	case "D": //date
 		ret = common.JSON{
 			"starttime":  c.StartTime,
-			"id":         c.ID,
+			"id":         fmt.Sprint(c.ID),
 			"finishtime": c.FinishTime,
-			"distance":   c.Distance,
+			"distance":   fmt.Sprint(c.Distance),
 		}
 	}
 	return ret
@@ -92,38 +93,38 @@ func (c *Cycling) CustomGraphSerialize(metric string) common.JSON {
 	case "D":
 		ret = common.JSON{
 			"starttime": c.StartTime,
-			"id":        c.ID,
-			"value":     c.Distance,
+			"id":        fmt.Sprint(c.ID),
+			"value":     fmt.Sprint(c.Distance),
 		}
 	case "P":
 		ret = common.JSON{
 			"starttime": c.StartTime,
-			"id":        c.ID,
-			"value":     c.AveragePace,
+			"id":        fmt.Sprint(c.ID),
+			"value":     fmt.Sprint(c.AveragePace),
 		}
 	case "E":
 		ret = common.JSON{
 			"starttime": c.StartTime,
-			"id":        c.ID,
-			"value":     c.ElevationGain,
+			"id":        fmt.Sprint(c.ID),
+			"value":     fmt.Sprint(c.ElevationGain),
 		}
 	case "HR":
 		ret = common.JSON{
 			"starttime": c.StartTime,
-			"id":        c.ID,
-			"value":     c.HeartRate,
+			"id":        fmt.Sprint(c.ID),
+			"value":     fmt.Sprint(c.HeartRate),
 		}
 	case "C":
 		ret = common.JSON{
 			"starttime": c.StartTime,
-			"id":        c.ID,
-			"value":     c.CalorieBurned,
+			"id":        fmt.Sprint(c.ID),
+			"value":     fmt.Sprint(c.CalorieBurned),
 		}
 	case "T":
 		ret = common.JSON{
 			"starttime": c.StartTime,
-			"id":        c.ID,
-			"value":     c.FinishTime,
+			"id":        fmt.Sprint(c.ID),
+			"value":     fmt.Sprint(c.FinishTime),
 		}
 	}
 	return ret

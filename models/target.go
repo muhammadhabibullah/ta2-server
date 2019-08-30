@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"tugas-akhir-2/common"
 
 	"github.com/jinzhu/gorm"
@@ -18,11 +19,11 @@ type Target struct {
 // Serialize serializes bicycle data
 func (t *Target) Serialize() common.JSON {
 	return common.JSON{
-		"id":           t.ID,
+		"id":           fmt.Sprint(t.ID),
 		"name":         t.Name,
 		"targettype":   t.TargetType,
-		"targetnumber": t.TargetNumber,
-		"userid":       t.UserID,
+		"targetnumber": fmt.Sprint(t.TargetNumber),
+		"userid":       fmt.Sprint(t.UserID),
 	}
 }
 
