@@ -39,9 +39,9 @@ func ApplyRoutes(r *gin.Engine) {
 		api.GET("/detail/:cyclingid", cont.CyclingDetail)           //Detail in a Cycling
 		api.GET("/progress/:cyclingid", cont.CyclingProgress)       //Cycling Progress
 	}
-	// api = r.Group("/api/nodemcu")
-	// {
-	// 	api.GET("/retrieveAge/:bid", cont.GetCyclerAge)
-	// 	api.GET("/retrieveLastestTarget/:bid", cont.GetCyclerLastestTarget)
-	// }
+	api = r.Group("/api/nodemcu")
+	{
+		api.GET("/retrieveAge/:bid", cont.GetCyclerAge)
+		api.GET("/retrieveLastestTarget/:bid", cont.GetCyclerLastestTarget)
+	}
 }
