@@ -21,8 +21,21 @@ type User struct {
 	Height         float64 `gorm:"column:height;type:float;not null"`
 }
 
-// Serialize serializes user data
+// Serialize serializes user data for jwt
 func (u *User) Serialize() common.JSON {
+	return common.JSON{
+		"id":        u.ID,
+		"email":     u.Email,
+		"name":      u.Name,
+		"birthdate": u.Birthdate,
+		"gender":    u.Gender,
+		"weight":    u.Weight,
+		"height":    u.Height,
+	}
+}
+
+// SSerialize serializes user data for client/user
+func (u *User) SSerialize() common.JSON {
 	return common.JSON{
 		"id":        fmt.Sprint(u.ID),
 		"email":     u.Email,

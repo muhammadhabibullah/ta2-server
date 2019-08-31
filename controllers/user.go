@@ -104,7 +104,7 @@ func UserSignUp(c *gin.Context) {
 	c.SetCookie("token", token, 60*60*24*7, "/", "", false, true)
 
 	c.JSON(200, common.JSON{
-		"user":  user.Serialize(),
+		"user":  user.SSerialize(),
 		"token": token,
 	})
 }
@@ -142,7 +142,7 @@ func UserLogin(c *gin.Context) {
 	c.SetCookie("token", token, 60*60*24*7, "/", "", false, true)
 
 	c.JSON(200, common.JSON{
-		"user":  user.Serialize(),
+		"user":  user.SSerialize(),
 		"token": token,
 	})
 }
@@ -152,7 +152,7 @@ func UserRetrieve(c *gin.Context) {
 	user := middlewares.AuthorizedUser(c)
 
 	c.JSON(200, common.JSON{
-		"user": user.Serialize(),
+		"user": user.SSerialize(),
 	})
 }
 
@@ -178,6 +178,6 @@ func UserRenewToken(c *gin.Context) {
 
 	c.JSON(200, common.JSON{
 		"token": nil,
-		//"user":  user.Serialize(),
+		//"user":  user.SSerialize(),
 	})
 }
