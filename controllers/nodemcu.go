@@ -7,30 +7,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-//GetCyclerAge function
-func GetCyclerAge(c *gin.Context) {
-
-	var bicycle Bicycle
-	var user User
-
-	db := c.MustGet("db").(*gorm.DB)
-
-	bicycleid := c.Param("bid")
-	db.Where("id = ?", bicycleid).Find(&bicycle)
-
-	userid := bicycle.UserID
-	db.Where("id = ?", userid).Find(&user)
-
-	age := user.CountAge()
-
-	c.JSON(200, common.JSON{
-		"age": age,
-	})
-
-}
-
-//GetCyclerLastestTarget function
-func GetCyclerLastestTarget(c *gin.Context) {
+//GetData function
+func GetData(c *gin.Context) {
 
 	var bicycle Bicycle
 	var user User
@@ -50,7 +28,10 @@ func GetCyclerLastestTarget(c *gin.Context) {
 	db.Where("userid = ? and targettype = 'E'", userid).Find(&targete).Order("created_by DESC").Limit(1)
 	db.Where("userid = ? and targettype = 'T'", userid).Find(&targett).Order("created_by DESC").Limit(1)
 
+	age := user.CountAge()
+
 	c.JSON(200, common.JSON{
+		"age":       age,
 		"distance":  targetd.TargetNumber,
 		"elevation": targete.TargetNumber,
 		"time":      targett.TargetNumber,

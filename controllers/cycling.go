@@ -14,6 +14,9 @@ import (
 // Cycling is alias for models.Cycling
 type Cycling = models.Cycling
 
+// GPSRawData is alias for models.GPSRawData
+type GPSRawData = models.GPSRawData
+
 //CyclingCalendarMonth get cycling data at requested month-year range
 func CyclingCalendarMonth(c *gin.Context) {
 	user := middlewares.AuthorizedUser(c)
@@ -234,6 +237,24 @@ func CyclingDetail(c *gin.Context) {
 	}
 
 	c.JSON(200, cycling.Serialize())
+}
+
+//CyclingMap func
+func CyclingMap(c *gin.Context) {
+	var gpsrawdata []GPSRawData
+
+	db := c.MustGet("db").(*gorm.DB)
+	cyclingid := c.Param("cyclingid")
+	db.Where("cyclingid = ?", cyclingid).Order("s asc").Find(&gpsrawdata)
+
+	length := len(gpsrawdata)
+	serialized := make([]common.JSON, length, length)
+
+	for i := 0; i < length; i++ {
+		serialized[i] = gpsrawdata[i].Serialize()
+	}
+
+	c.JSON(200, serialized)
 }
 
 //CyclingProgress return code for draw arrow in cycling data

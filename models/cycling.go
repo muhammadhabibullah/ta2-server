@@ -129,3 +129,21 @@ func (c *Cycling) CustomGraphSerialize(metric string) common.JSON {
 	}
 	return ret
 }
+
+//GPSRawData type
+type GPSRawData struct {
+	ID        uint    `gorm:"column:id;primary_key"`
+	CyclingID uint    `gorm:"column:cyclindid;not null"`
+	Second    uint    `gorm:"column:s;not null"`
+	Lat       float64 `gorm:"column:lt;not null"`
+	Long      float64 `gorm:"column:lg;not null"`
+}
+
+//Serialize func
+func (g *GPSRawData) Serialize() common.JSON {
+	return common.JSON{
+		"seconds": fmt.Sprint(g.Second),
+		"lat":     fmt.Sprint(g.Lat),
+		"long":    fmt.Sprint(g.Long),
+	}
+}
