@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"strconv"
 	"tugas-akhir-2/common"
 	"tugas-akhir-2/middlewares"
 	"tugas-akhir-2/models"
@@ -19,9 +20,9 @@ func TargetSignUp(c *gin.Context) {
 
 	db := c.MustGet("db").(*gorm.DB)
 	type RequestBody struct {
-		Name         string  `json:"name" binding:"required"`
-		TargetType   string  `json:"targettype" binding:"required"`
-		TargetNumber float64 `json:"targetnumber" binding:"required"`
+		Name         string `json:"name" binding:"required"`
+		TargetType   string `json:"targettype" binding:"required"`
+		TargetNumber string `json:"targetnumber" binding:"required"`
 	}
 
 	var body RequestBody
@@ -31,10 +32,16 @@ func TargetSignUp(c *gin.Context) {
 		return
 	}
 
+	//convert string to float64 AVID
+	targetnumber := 0.0
+	if tn, err := strconv.ParseFloat(body.TargetNumber, 64); err == nil {
+		targetnumber = tn
+	}
+
 	target := Target{
 		Name:         body.Name,
 		TargetType:   body.TargetType,
-		TargetNumber: body.TargetNumber,
+		TargetNumber: targetnumber,
 		UserID:       user.ID,
 	}
 
@@ -87,9 +94,9 @@ func TargetEdit(c *gin.Context) {
 	id := c.Param("id")
 
 	type RequestBody struct {
-		Name         string  `json:"name"`
-		TargetType   string  `json:"targettype" binding:"required"`
-		TargetNumber float64 `json:"targetnumber" binding:"required"`
+		Name         string `json:"name"`
+		TargetType   string `json:"targettype" binding:"required"`
+		TargetNumber string `json:"targetnumber" binding:"required"`
 	}
 
 	var body RequestBody
@@ -112,9 +119,15 @@ func TargetEdit(c *gin.Context) {
 		return
 	}
 
+	//convert string to float64 AVID
+	targetnumber := 0.0
+	if tn, err := strconv.ParseFloat(body.TargetNumber, 64); err == nil {
+		targetnumber = tn
+	}
+
 	target.Name = body.Name
 	target.TargetType = body.TargetType
-	target.TargetNumber = body.TargetNumber
+	target.TargetNumber = targetnumber
 	db.Save(&target)
 	c.JSON(200, target.Serialize())
 }

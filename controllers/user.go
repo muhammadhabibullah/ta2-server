@@ -4,6 +4,7 @@ import (
 	"fmt"
 	//"io/ioutil"
 	"os"
+	"strconv"
 	"time"
 
 	"tugas-akhir-2/common"
@@ -56,13 +57,13 @@ func UserSignUp(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
 	type RequestBody struct {
-		Email     string  `json:"email" binding:"required"`
-		Name      string  `json:"name" binding:"required"`
-		Password  string  `json:"password" binding:"required"`
-		Birthdate string  `json:"birthdate" binding:"required"`
-		Gender    string  `json:"gender" binding:"required"`
-		Weight    float64 `json:"weight" binding:"required"`
-		Height    float64 `json:"height" binding:"required"`
+		Email     string `json:"email" binding:"required"`
+		Name      string `json:"name" binding:"required"`
+		Password  string `json:"password" binding:"required"`
+		Birthdate string `json:"birthdate" binding:"required"`
+		Gender    string `json:"gender" binding:"required"`
+		Weight    string `json:"weight" binding:"required"`
+		Height    string `json:"height" binding:"required"`
 	}
 
 	var body RequestBody
@@ -85,6 +86,16 @@ func UserSignUp(c *gin.Context) {
 		return
 	}
 
+	//convert string to float64 AVID
+	weight := 0.0
+	height := 0.0
+	if w, err := strconv.ParseFloat(body.Weight, 64); err == nil {
+		weight = w
+	}
+	if h, err := strconv.ParseFloat(body.Height, 64); err == nil {
+		height = h
+	}
+
 	// create user
 	user := User{
 		Email:          body.Email,
@@ -92,8 +103,8 @@ func UserSignUp(c *gin.Context) {
 		HashedPassword: hash,
 		Birthdate:      body.Birthdate,
 		Gender:         body.Gender,
-		Weight:         body.Weight,
-		Height:         body.Height,
+		Weight:         weight,
+		Height:         height,
 	}
 
 	db.NewRecord(user)

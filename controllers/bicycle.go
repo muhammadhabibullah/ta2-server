@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"strconv"
 	"tugas-akhir-2/common"
 	"tugas-akhir-2/middlewares"
 	"tugas-akhir-2/models"
@@ -19,7 +20,7 @@ func BicycleSignUp(c *gin.Context) {
 
 	db := c.MustGet("db").(*gorm.DB)
 	type RequestBody struct {
-		ID       uint   `json:"id" binding:"required"`
+		ID       string `json:"id" binding:"required"`
 		Name     string `json:"name"`
 		BikeType string `json:"biketype" binding:"required"`
 	}
@@ -31,16 +32,22 @@ func BicycleSignUp(c *gin.Context) {
 		return
 	}
 
+	//convert string to float64 AVID
+	var bicycleid uint
+	if bid, err := strconv.ParseUint(body.ID, 10, 64); err == nil {
+		bicycleid = uint(bid)
+	}
+
 	// check existancy
 	var exists Bicycle
-	if err := db.Where("ID = ?", body.ID).First(&exists).Error; err == nil {
+	if err := db.Where("ID = ?", bicycleid).First(&exists).Error; err == nil {
 		c.AbortWithStatus(409)
 		return
 	}
 
 	//create bicycle
 	bicycle := Bicycle{
-		ID:       body.ID,
+		ID:       bicycleid,
 		Name:     body.Name,
 		BikeType: body.BikeType,
 		UserID:   user.ID,

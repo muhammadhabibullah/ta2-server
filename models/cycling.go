@@ -147,3 +147,37 @@ func (g *GPSRawData) Serialize() common.JSON {
 		"long":    fmt.Sprint(g.Long),
 	}
 }
+
+//CyclingRawData type
+type CyclingRawData struct {
+	ID        uint    `gorm:"column:id;primary_key"`
+	Received  string  `gorm:"column:r;type:timestamp; not null"`
+	BicycleID uint    `gorm:"column:b; not null"`
+	When      string  `gorm:"column:w; not null"`
+	Lat       float64 `gorm:"column:t; not null"`
+	Long      float64 `gorm:"column:g; not null"`
+	Alt       float64 `gorm:"column:a; not null"`
+	Pace      float64 `gorm:"column:p; not null"`
+	Distance  float64 `gorm:"column:d; not null"`
+	Elevation float64 `gorm:"column:e; not null"`
+	HeartRate uint    `gorm:"column:h; not null"`
+	Seconds   uint    `gorm:"column:s; not null"`
+}
+
+// Serialize serializes bicycle data
+func (c *CyclingRawData) Serialize() common.JSON {
+	return common.JSON{
+		"id":        c.ID,
+		"received":  c.Received,
+		"bicycleid": c.BicycleID,
+		"when":      c.When,
+		"lat":       c.Lat,
+		"long":      c.Long,
+		"alt":       c.Alt,
+		"pace":      c.Pace,
+		"distance":  c.Distance,
+		"elevation": c.Elevation,
+		"heartrate": c.HeartRate,
+		"seconds":   c.Seconds,
+	}
+}

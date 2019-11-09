@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"bytes"
+	"fmt"
 	"strconv"
+	"time"
 	"tugas-akhir-2/common"
 	"tugas-akhir-2/middlewares"
 	"tugas-akhir-2/models"
@@ -16,6 +18,9 @@ type Cycling = models.Cycling
 
 // GPSRawData is alias for models.GPSRawData
 type GPSRawData = models.GPSRawData
+
+// CyclingRawData is alias for models.CyclingRawData
+type CyclingRawData = models.CyclingRawData
 
 //CyclingCalendarMonth get cycling data at requested month-year range
 func CyclingCalendarMonth(c *gin.Context) {
@@ -188,29 +193,177 @@ func CyclingGraph(c *gin.Context) {
 	switch y {
 	case "D":
 		// metric = "distance"
+		j := 0
+		k := 0
+		cd := 0.0
 		for i := 0; i < length; i++ {
-			serializedSelected[i] = cyclings[i].CustomGraphSerialize("D")
+			cd = cyclings[i].Distance
+			if i < (length) {
+				j = i + 1
+				if j < length {
+					st1 := ParseTimeString(cyclings[i].StartTime)
+					st2 := ParseTimeString(cyclings[j].StartTime)
+					for {
+						if DateEqual(st1, st2) {
+							cd = cd + cyclings[j].Distance
+							if j < (length - 1) {
+								j++
+								st2 = ParseTimeString(cyclings[j].StartTime)
+							} else {
+								break
+							}
+						} else {
+							break
+						}
+					}
+				}
+			}
+			cyclings[i].Distance = cd
+			serializedSelected[k] = cyclings[i].CustomGraphSerialize("D")
+			k++
+			i = j - 1
 		}
+		serializedSelected = append(serializedSelected[:k])
 	case "P":
 		// metric = "averagepace"
+		j := 0
+		k := 0
+		l := 0.0
+		cp := 0.0
 		for i := 0; i < length; i++ {
-			serializedSelected[i] = cyclings[i].CustomGraphSerialize("P")
+			cp = cyclings[i].AveragePace
+			l++
+			if i < (length) {
+				j = i + 1
+				if j < length {
+					st1 := ParseTimeString(cyclings[i].StartTime)
+					st2 := ParseTimeString(cyclings[j].StartTime)
+					for {
+						if DateEqual(st1, st2) {
+							cp = cp + cyclings[j].AveragePace
+							l++
+							if j < (length - 1) {
+								j++
+								st2 = ParseTimeString(cyclings[j].StartTime)
+							} else {
+								break
+							}
+						} else {
+							break
+						}
+					}
+				}
+			}
+			cyclings[i].AveragePace = cp / l
+			l = 0.0
+			serializedSelected[k] = cyclings[i].CustomGraphSerialize("P")
+			k++
+			i = j - 1
 		}
+		serializedSelected = append(serializedSelected[:k])
 	case "E":
 		// metric = "elevationgain"
+		j := 0
+		k := 0
+		ce := 0.0
 		for i := 0; i < length; i++ {
-			serializedSelected[i] = cyclings[i].CustomGraphSerialize("E")
+			ce = cyclings[i].ElevationGain
+			if i < (length) {
+				j = i + 1
+				if j < length {
+					st1 := ParseTimeString(cyclings[i].StartTime)
+					st2 := ParseTimeString(cyclings[j].StartTime)
+					for {
+						if DateEqual(st1, st2) {
+							ce = ce + cyclings[j].ElevationGain
+							if j < (length - 1) {
+								j++
+								st2 = ParseTimeString(cyclings[j].StartTime)
+							} else {
+								break
+							}
+						} else {
+							break
+						}
+					}
+				}
+			}
+			cyclings[i].ElevationGain = ce
+			serializedSelected[k] = cyclings[i].CustomGraphSerialize("E")
+			k++
+			i = j - 1
 		}
+		serializedSelected = append(serializedSelected[:k])
 	case "HR":
 		// metric = "heartrate"
+		j := 0
+		k := 0
+		l := 0.0
+		chr := 0
 		for i := 0; i < length; i++ {
-			serializedSelected[i] = cyclings[i].CustomGraphSerialize("HR")
+			chr = int(cyclings[i].HeartRate)
+			l++
+			if i < (length) {
+				j = i + 1
+				if j < length {
+					st1 := ParseTimeString(cyclings[i].StartTime)
+					st2 := ParseTimeString(cyclings[j].StartTime)
+					for {
+						if DateEqual(st1, st2) {
+							chr = chr + int(cyclings[j].HeartRate)
+							l++
+							if j < (length - 1) {
+								j++
+								st2 = ParseTimeString(cyclings[j].StartTime)
+							} else {
+								break
+							}
+						} else {
+							break
+						}
+					}
+				}
+			}
+			cyclings[i].HeartRate = uint(float64(chr) / l)
+			l = 0.0
+			serializedSelected[k] = cyclings[i].CustomGraphSerialize("HR")
+			k++
+			i = j - 1
 		}
+		serializedSelected = append(serializedSelected[:k])
 	case "C":
 		// metric = "calorieburned"
+		j := 0
+		k := 0
+		cc := 0.0
 		for i := 0; i < length; i++ {
-			serializedSelected[i] = cyclings[i].CustomGraphSerialize("C")
+			cc = cyclings[i].CalorieBurned
+			if i < (length) {
+				j = i + 1
+				if j < length {
+					st1 := ParseTimeString(cyclings[i].StartTime)
+					st2 := ParseTimeString(cyclings[j].StartTime)
+					for {
+						if DateEqual(st1, st2) {
+							cc = cc + cyclings[j].CalorieBurned
+							if j < (length - 1) {
+								j++
+								st2 = ParseTimeString(cyclings[j].StartTime)
+							} else {
+								break
+							}
+						} else {
+							break
+						}
+					}
+				}
+			}
+			cyclings[i].CalorieBurned = cc
+			serializedSelected[k] = cyclings[i].CustomGraphSerialize("C")
+			k++
+			i = j - 1
 		}
+		serializedSelected = append(serializedSelected[:k])
 	case "T":
 		// metric = "finishtime"
 		for i := 0; i < length; i++ {
@@ -219,6 +372,24 @@ func CyclingGraph(c *gin.Context) {
 	}
 
 	c.JSON(200, serializedSelected)
+}
+
+//ParseTimeString func
+func ParseTimeString(str string) time.Time {
+	layout := "2006-01-02T15:04:05-07:00"
+	t, err := time.Parse(layout, str)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	return t
+}
+
+//DateEqual func
+func DateEqual(date1, date2 time.Time) bool {
+	y1, m1, d1 := date1.Date()
+	y2, m2, d2 := date2.Date()
+	return y1 == y2 && m1 == m2 && d1 == d2
 }
 
 //CyclingDetail give detail of a cycling data
@@ -347,4 +518,22 @@ func CyclingProgress(c *gin.Context) {
 		"percentofgoal": per,
 	})
 
+}
+
+//GetCyclingRawData func
+func GetCyclingRawData(c *gin.Context) {
+	var cyclingrawdata []CyclingRawData
+
+	db := c.MustGet("db").(*gorm.DB)
+	bicycleid := c.Param("bicycleid")
+	db.Where("b = ?", bicycleid).Order("s desc").Find(&cyclingrawdata)
+
+	length := len(cyclingrawdata)
+	serialized := make([]common.JSON, length, length)
+
+	for i := 0; i < length; i++ {
+		serialized[i] = cyclingrawdata[i].Serialize()
+	}
+
+	c.JSON(200, serialized)
 }

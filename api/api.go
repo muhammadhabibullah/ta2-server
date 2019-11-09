@@ -19,7 +19,7 @@ func ApplyRoutes(r *gin.Engine) {
 	{
 		api.POST("/signup", cont.BicycleSignUp)
 		api.GET("/retrieve", cont.BicycleRetrieve)
-		api.PATCH("/edit/:id", cont.BicycleEdit)
+		api.PUT("/edit/:id", cont.BicycleEdit)
 		api.DELETE("/delete/:id", cont.BicycleDelete)
 	}
 	api = r.Group("api/target")
@@ -27,7 +27,7 @@ func ApplyRoutes(r *gin.Engine) {
 		api.POST("/signup", cont.TargetSignUp)
 		api.GET("/retrieve", cont.TargetRetrieve)
 		//api.GET("/lastestretrieve", cont.LastestTargetRetrieve)
-		api.PATCH("/edit/:id", cont.TargetEdit)
+		api.PUT("/edit/:id", cont.TargetEdit)
 		api.DELETE("/delete/:id", cont.TargetDelete)
 	}
 	api = r.Group("api/cycling")
@@ -43,5 +43,9 @@ func ApplyRoutes(r *gin.Engine) {
 	api = r.Group("/api/nodemcu")
 	{
 		api.GET("/retrieveData/:bid", cont.GetData)
+	}
+	api = r.Group("/api/cyclingrawdata")
+	{
+		api.GET(":bicycleid", cont.GetCyclingRawData)
 	}
 }
