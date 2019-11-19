@@ -19,7 +19,6 @@ type Cycling struct {
 	Recommendation string  `gorm:"column:recommendation;type:text; not null"`
 	UserID         uint    `gorm:"column:userid;not null"`
 	BicycleID      uint    `gorm:"column:bicycleid;not null"`
-	GPSID          uint    `gorm:"column:gpsid;not null"`
 }
 
 // Serialize serializes bicycle data
@@ -37,7 +36,6 @@ func (c *Cycling) Serialize() common.JSON {
 		"recommendation": c.Recommendation,
 		"userid":         fmt.Sprint(c.UserID),
 		"bicycleid":      fmt.Sprint(c.BicycleID),
-		"gpsid":          fmt.Sprint(c.GPSID),
 	}
 }
 
@@ -54,7 +52,6 @@ func (c *Cycling) Read(m common.JSON) {
 	c.Recommendation = m["recommendation"].(string)
 	c.UserID = uint(m["userid"].(float64))
 	c.BicycleID = uint(m["bicycleid"].(float64))
-	c.GPSID = uint(m["gpsid"].(float64))
 }
 
 // CustomListSerialize serializes cycling data
